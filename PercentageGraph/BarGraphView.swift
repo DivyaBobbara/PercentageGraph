@@ -41,7 +41,7 @@ class BarGraphView:UIView{
             
             drawTitle(xPos: xPos, yPos: scrollView.contentSize.height - 50 , width: 150.0, height:
            40.0, title: entry.subjectName)
-            xAxisDisplayDotLine(xPos: xPos+20, yPos:scrollView.contentSize.height - 50 , width: 1, height: 10)
+            xAxisDisplayDotLine(xPos: xPos+(barWidth/2), yPos:scrollView.contentSize.height - 50 , width: 1, height: 10)
             drawTextValue(xPos: xPos, yPos:scrollView.contentSize.height - yPos - 90, textValue: "\(entry.percentage)")
             
         }
