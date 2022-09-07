@@ -24,10 +24,12 @@ class BarGraphView:UIView{
         }
         override init(frame: CGRect){
            super.init(frame: frame)
+          
            setupView()
         }
         required init?(coder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+            super.init(coder: coder)
+            setupView()
         }
         private func setupView(){
            addSubview(scrollView)
@@ -39,11 +41,17 @@ class BarGraphView:UIView{
             
             drawTitle(xPos: xPos, yPos: scrollView.contentSize.height - 50 , width: 150.0, height:
            40.0, title: entry.subjectName)
+            xAxisDisplayDotLine(xPos: xPos+20, yPos:scrollView.contentSize.height - 50 , width: 1, height: 10)
             drawTextValue(xPos: xPos, yPos:scrollView.contentSize.height - yPos - 90, textValue: "\(entry.percentage)")
-            drawXAxis(xPos: 0, yPos: scrollView.contentSize.height - 50, width: scrollView.contentSize.width, height: 1)
-//            print(self.frame.height,"height")
-            drawYAxis(xPos: 80, yPos:0 , width: 1, height: self.frame.height)
+            
         }
+    func xAxisDisplayDotLine(xPos:CGFloat,yPos:CGFloat,width:CGFloat,height:CGFloat)
+    {
+        let dottedLine = UIView()
+        dottedLine.frame = CGRect(x: xPos, y: yPos, width: width, height: height)
+        dottedLine.backgroundColor = .gray
+        scrollView.addSubview(dottedLine)
+    }
 
         func displayYAxisValues(xPos:CGFloat,yPos:CGFloat,width:CGFloat,height:CGFloat,value:Int){
             
@@ -108,13 +116,21 @@ class BarGraphView:UIView{
         override func layoutSubviews() {
             scrollView.frame = CGRect(x: 80, y: 0, width: frame.size.width,
             height: frame.size.height)
-            var startPoint = CGPoint(x: 40, y: 0)
+            var startPoint = CGPoint(x: 30, y: 0)
             for i in 0..<yAxisValues.count{
-                displayYAxisValues(xPos: startPoint.x, yPos:startPoint.y, width: 50, height: 20,value:yAxisValues[i])
+                displayYAxisValues(xPos: startPoint.x, yPos:startPoint.y - 10, width: 40, height: 20,value:yAxisValues[i])
+                
+                displayDotLine(xPos: startPoint.x+40, yPos: startPoint.y, width: 10, height: 1)
                 startPoint.y = startPoint.y + ((self.frame.height - 50)/5)
-//                print(startPoint)
+                print(startPoint)
                 
             }
+            
+            drawXAxis(xPos: 0, yPos: scrollView.contentSize.height - 50, width: scrollView.contentSize.width, height: 1)
+//            print(self.frame.height,"height")
+            drawYAxis(xPos: 80, yPos:0 , width: 1, height: self.frame.height)
+            
+            
             let xAxisTitle = UILabel()
             xAxisTitle.frame = CGRect(x: scrollView.contentSize.width/2, y: self.frame.height + 5, width: 80, height: 30)
             xAxisTitle.text = "Subjects"
@@ -123,7 +139,7 @@ class BarGraphView:UIView{
             
             let yAxisTitle = UILabel()
             yAxisTitle.transform = CGAffineTransform(rotationAngle: -CGFloat.pi/2)
-            yAxisTitle.frame = CGRect(x: 10, y: scrollView.contentSize.height/2 - 100, width: 20, height: 150)
+            yAxisTitle.frame = CGRect(x: 0, y: scrollView.contentSize.height/2 - 100, width: 20, height: 150)
             yAxisTitle.text = "Percentage %"
             self.addSubview(yAxisTitle)
             
@@ -138,7 +154,14 @@ class BarGraphView:UIView{
             
            
         }
-    
+   
+    func displayDotLine(xPos:CGFloat,yPos:CGFloat,width:CGFloat,height:CGFloat)
+    {
+        let dottedLine = UIView()
+        dottedLine.frame = CGRect(x: xPos, y: yPos, width: width, height: height)
+        dottedLine.backgroundColor = .gray
+        self.addSubview(dottedLine)
+    }
     func displayInfo(xPos:CGFloat,yPos:CGFloat,width:CGFloat,height:CGFloat,statusVal:String,circleColor:UIColor){
         let roundedButton = UIButton()
         roundedButton.frame = CGRect(x: xPos, y: yPos, width:width , height: height)
