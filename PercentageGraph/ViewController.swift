@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 //        barGraphView.frame = CGRect(x: 0, y: 100, width: view.frame.width, height: 500)
        
         barGraphView.dataEntries = [
-        BarEntry(percentage: 80, subjectName: "MAT", status: "Average"),
+        BarEntry(percentage: 30, subjectName: "MAT", status: "Average"),
         BarEntry(percentage: 100, subjectName: "PHY", status: "Weak"),
         BarEntry(percentage: 80, subjectName: "CHEM", status: "Average"),
         BarEntry(percentage: 80, subjectName: "SCI", status: "Strong"),

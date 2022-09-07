@@ -12,6 +12,7 @@ class BarGraphView:UIView{
         let barWidth: CGFloat = 40.0
         let contentSpace: CGFloat = 280
         var yAxisValues = [100,80,60,40,20]
+    var topExtraSpace = 50.0
         var dataEntries : [BarEntry] = [] {
             didSet{
                 scrollView.showsHorizontalScrollIndicator = false
@@ -42,7 +43,7 @@ class BarGraphView:UIView{
             drawTitle(xPos: xPos, yPos: scrollView.contentSize.height - 50 , width: 150.0, height:
            40.0, title: entry.subjectName)
             xAxisDisplayDotLine(xPos: xPos+(barWidth/2), yPos:scrollView.contentSize.height - 50 , width: 1, height: 10)
-            drawTextValue(xPos: xPos, yPos:scrollView.contentSize.height - yPos - 90, textValue: "\(entry.percentage)")
+            drawTextValue(xPos: xPos, yPos:scrollView.contentSize.height - yPos - 85, textValue: "\(entry.percentage)")
             
         }
     func xAxisDisplayDotLine(xPos:CGFloat,yPos:CGFloat,width:CGFloat,height:CGFloat)
@@ -87,10 +88,12 @@ class BarGraphView:UIView{
             let label = UILabel()
               label.text = textValue
               label.frame = CGRect(x: xPos, y: yPos, width: 100, height: 50)
+            
               scrollView.addSubview(label)
+            
         }
         func translateHeightVal(value : Float) -> CGFloat{
-            let height = CGFloat(value) * (self.frame.height - 50)
+            let height = CGFloat(value) * (self.frame.height - 100)
             return abs(height)
         }
         func barGraph(xPos:CGFloat,yPos:CGFloat,index:Int){
@@ -118,10 +121,10 @@ class BarGraphView:UIView{
             height: frame.size.height)
             var startPoint = CGPoint(x: 30, y: 0)
             for i in 0..<yAxisValues.count{
-                displayYAxisValues(xPos: startPoint.x, yPos:startPoint.y - 10, width: 40, height: 20,value:yAxisValues[i])
+                displayYAxisValues(xPos: startPoint.x, yPos:startPoint.y - 10 + topExtraSpace, width: 40, height: 20,value:yAxisValues[i])
                 
-                displayDotLine(xPos: startPoint.x+40, yPos: startPoint.y, width: 10, height: 1)
-                startPoint.y = startPoint.y + ((self.frame.height - 50)/5)
+                displayDotLine(xPos: startPoint.x+40, yPos: startPoint.y+topExtraSpace, width: 10, height: 1)
+                startPoint.y = startPoint.y + ((self.frame.height - 100)/5)
                 print(startPoint)
                 
             }
